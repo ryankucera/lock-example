@@ -13,17 +13,45 @@ In contrast to Exosite's home automation example (aka "lightbulb example") this 
 
 ## Setup
 
-First, install the [Exosite CLI](https://github.com/exosite/exosite-cli). 
-
-Next, create solution in Murano: On the <a href="https://www.exosite.io/business/solutions">solution page</a>, click <b>+ New Solution</b>, selecting "Start from scratch" in the dropdown. Then follow these instructions at the command line:
+First, create solution in Murano: On the <a href="https://www.exosite.io/business/solutions">solution page</a>, click <b>+ New Solution</b>, selecting "Start from scratch" in the dropdown. You can then enter this Solution template: 
 
 ```
-$ git clone git@github.com:exosite/murano-health.git
-$ cd murano-health
+https://github.com/exosite/lock-example
+```
+
+After a few moments your solution will be created. Next it needs to be linked to a lock product, though. On the [products page](https://www.exosite.io/business/products) click **+ New Product** and enter this product template to create a smart lock product:
+
+```
+https://raw.githubusercontent.com/exosite/lock-example/master/product/spec.yaml
+```
+
+Install the [Exosite command line tool](https://github.com/exosite/exosite-cli). 
+
+```
+$ pip install --upgrade exosite
+```
+
+Next, clone the repository containing the solution.
+
+```
+$ git clone git@github.com:exosite/lock-example.git
+$ cd lock-example
+```
+
+Initialize the `.Solutionfile.secret` by running the `--init`. Select the **Solution ID** and **Product ID** you created earlier.
+
+```
 $ exosite --init
 ```
 
-Follow the prompts to select the solution you created. Then deploy:
+Create two devices with identities `001` and `002`. It's important that these identities match. You can create them in the UI or at the command line like this:
+
+```
+$ exosite --enable_identity 001
+$ exosite --enable_identity 002
+```
+
+Deploy the solution:
 
 ```
 $ exosite --deploy
