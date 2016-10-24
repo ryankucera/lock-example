@@ -1,14 +1,14 @@
 {
   "default_page": "index.html",
-  "file_dir": "public",
-  "custom_api": "api.lua",
+  "file_dir": "solution/public",
+  "custom_api": "solution/api.lua",
   "custom_api_hook": "_init",
   "modules": {
-    "util": "modules/util.lua"
+    "util": "solution/modules/util.lua"
   },
   "event_handler": {
     "device": {
-      "datapoint": "event_handler/product.lua"
+      "datapoint": "solution/event_handler/product.lua"
     }
   },
   "cors": {"origin": ["http://localhost:*"]}
