@@ -75,7 +75,13 @@ return r
 
 -- assume only only one product associated with
 -- this solution.
-local pid = Config.solution().products[1]
+local solutionConfig = Config.solution()
+if table.getn(solutionConfig.products) == 0 then
+	response.code = 400
+	response.message = 'No products configured with this solution. You can configure a product under Services->Products.'
+  return
+end
+local pid = solutionConfig.products[1]
 
 -- get the list of devices for this product
 local devices = Device.list({pid=pid})
@@ -104,28 +110,25 @@ response.message = {
 -- For demonstration it creates some sample users, roles,
 -- and device permissions
 
--- collect results in a table for debugging
-local t = {}
-
 -- create sample users
-table.insert(t, User.activateUser({
+User.activateUser({
 	code=User.createUser({
 		name="judy",
 		email="judy@exosite.com",
 		password="judy-password1"
 	})
-}))
-table.insert(t, User.activateUser({
+})
+User.activateUser({
 	code=User.createUser({
 		name="frank",
 		email="frank@exosite.com",
 		password="frank-password1"
 	})
-}))
+})
 
 -- create initial lock states
-table.insert(t, util.setStates('lockID', '001', { 'name', 'Home' }))
-table.insert(t, util.setStates('lockID', '002', { 'name', 'Studio' }))
+util.setStates('lockID', '001', { 'name', 'Home' })
+util.setStates('lockID', '002', { 'name', 'Studio' })
 
 -- get user ids
 local users = User.listUsers()
@@ -133,23 +136,23 @@ local judy = users[1]
 local frank = users[2]
 
 -- create roles
-table.insert(t, User.createRole({
+User.createRole({
 	role_id='owner',
 	parameter={
 		{ name = 'lockID'},
 		{ name = 'dwellingID'}
 	}
-}))
-table.insert(t, User.createRole({
+})
+User.createRole({
 	role_id='guest',
 	parameter={
 		{ name='lockID'}
 	}
-}))
+})
 
 -- assign roles to users (including parameters
 -- for the role's permissions)
-table.insert(t, User.assignUser({
+User.assignUser({
 	id = judy.id,
 	roles = {
 		{
@@ -170,10 +173,10 @@ table.insert(t, User.assignUser({
 			}
 		}		
 	}
-}))
+})
 
 -- frank gets guest access to lock 001
-table.insert(t, User.assignUser({
+User.assignUser({
 	id = frank.id,
 	roles = {
 		{
@@ -186,17 +189,18 @@ table.insert(t, User.assignUser({
 			}
 		}		
 	}
-}))
+})
 
--- dump out the results
-table.insert(t, users)
-table.insert(t, User.listRoles())
-table.insert(t, User.listUserRoles({
-	id=judy.id
-}))
-table.insert(t, User.listUserRoles({
-	id=frank.id
-}))
+--#ENDPOINT GET /test-users
+
+-- get user ids
+local users = User.listUsers()
+
+local judy = users[1]
+local frank = users[2]
+
+-- create a table to hold results
+local t = {users}
 
 -- this should be true
 table.insert(t, "tests (every other line below should be 'OK')")
@@ -234,5 +238,3 @@ table.insert(t, User.hasUserRoleParam({
 }))
 
 return t
-
-
