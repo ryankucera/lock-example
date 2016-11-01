@@ -58,7 +58,6 @@ end
 -- This is a public endpoint
 -- send lock-command to a particular lock
 local pid = Config.solution().products[1]
-local rid = Device.list({pid=pid})[1]['rid']
 
 local r = Device.write({
   pid=pid, 
@@ -78,7 +77,7 @@ return r
 local solutionConfig = Config.solution()
 if table.getn(solutionConfig.products) == 0 then
 	response.code = 400
-	response.message = 'No products configured with this solution. You can configure a product under Services->Products.'
+	response.message = 'Uh oh. No product has been associated with this solution. You can configure a product under Services->Product->Configuration.'
   return
 end
 local pid = solutionConfig.products[1]

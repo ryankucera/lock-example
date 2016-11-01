@@ -1,6 +1,6 @@
 # Murano Lock Example
 
-This is a self-contained example of a smart lock device, intended to provide developers an example of using Exosite's Murano platform for some common use cases. It contains code simulating both the smart lock firmware, the cloud event handlers, and the application UI. [See it in action.](https://github.com/exosite/murano-examples/blob/master/smart-lock/images/smart-lock.gif)
+This is a self-contained example of a smart lock device, intended to provide developers an example of using Exosite's Murano platform for some common use cases. It contains code simulating both the smart lock firmware, the cloud event handlers, and the application UI. [See it in action.](https://github.com/exosite/lock-example/blob/master/images/smart-lock.gif)
 
 It is designed to illustrate the use of Murano to build connected products and applications, including:
 
@@ -49,6 +49,13 @@ Create two devices with identities `001` and `002`. It's important that these id
 ```
 $ exosite --enable_identity 001
 $ exosite --enable_identity 002
+```
+
+Run simulators:
+```
+$ cd product
+$ python simulator.py <product-id> 001
+$ python simulator.py <product-id> 002
 ```
 
 Deploy the solution:

@@ -87,7 +87,8 @@ $(function(){
 				render(allLocks);
 			},
 			error: function(xhr, textStatus, errorThrown) {
-				alert(errorThrown)
+				alert(xhr.responseText + ' (' + errorThrown + ')')
+				alert(xhr.responseText)
 			}
 		};
 		// we're signed in.
