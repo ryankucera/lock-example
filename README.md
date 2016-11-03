@@ -56,6 +56,7 @@ Run simulators:
 $ cd product
 $ python simulator.py <product-id> 001
 $ python simulator.py <product-id> 002
+$ cd ..
 ```
 
 Deploy the solution:
