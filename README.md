@@ -50,6 +50,7 @@ For this tutorial we'll use the Mr Murano command line utility. At a high level,
 	* `files` - Your solution in Murano has a publicly accessible web address allowing you to host a web site web application using frameworks like Ember, Angular or React, to name a few. This content is stored in the `files` directory
 	* *Note - all of these directory names are customizable. You can change them to suite your needs*
 * `mr syncup` - this command syncs all local file system changes to Murano. *Please note: this is an overwrite. Any changes made directly in Murano will be over-written by this command*.
+* Map the product created earlier to our solution: `mr assign set`
 
 
 
@@ -61,7 +62,7 @@ $ mr product device enable 001
 $ mr product device enable 002
 ```
 
-Run simulators:
+Run simulators using the product id for the product you created earlier:
 ```
 $ cd product
 $ python simulator.py <product-id> 001
