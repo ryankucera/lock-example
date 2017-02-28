@@ -1,6 +1,6 @@
---#ENDPOINT GET /lock/
+--#ENDPOINT GET /locks/
 
--- get all the locks. This illustrates a public endpoint 
+-- get all the locks. This illustrates a public endpoint
 -- with no authentication and therefore no associated user
 
 -- assume only only one product associated with
@@ -24,7 +24,7 @@ for k, device in pairs(devices) do
 	device.lockID = device.sn
 	device.sn = nil
 	-- ...except role_id, which doesn't make sense here
-	
+
 	table.insert(response, device)
 end
 return devices

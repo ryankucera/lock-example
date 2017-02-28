@@ -19,7 +19,7 @@ $(function(){
 		});
 	}
 
-	/* sign in by posting to /token to get a token and setting 
+	/* sign in by posting to /token to get a token and setting
      it in muranoToken */
 	function signIn() {
 		console.log('signing in...');
@@ -36,7 +36,7 @@ $(function(){
 				$('.nav-signedout').hide();
 				$('.nav-signedin').show();
 
-				// get locks based on 
+				// get locks based on
 				getLocks();
      },
       error: function(xhr, textStatus, errorThrown) {
@@ -81,9 +81,9 @@ $(function(){
 	function getLocks() {
 		var params = {
 			method: 'GET',
-			url: '/lock/',
+			url: '/locks/',
 			success: function(data) {
-				allLocks = data;	
+				allLocks = data;
 				render(allLocks);
 			},
 			error: function(xhr, textStatus, errorThrown) {
@@ -95,22 +95,22 @@ $(function(){
 		if (muranoToken) {
 			// include the token as a header
 			// note that this is not strictly necessary
-			// since the API will have put it in the cookie, 
+			// since the API will have put it in the cookie,
 			// but a native mobile app would have to do this.
 			params.headers = {
 				'token': muranoToken
 			};
 			// call the user-specific lock listing.
-			params.url = '/user/lock/';
+			params.url = '/user/locks/';
 		}
 		$.ajax(params);
 	}
-	/* send a command to the lock. 
+	/* send a command to the lock.
      state may be 'locked' or 'unlocked' */
   function lockCommand(sn, state) {
     $.ajax({
       method: 'POST',
-      url: '/lock/' + sn,
+      url: '/locks/' + sn,
       data: '{"lock-command":"' + state + '"}',
       headers: {
         'Content-Type': 'application/json'
@@ -136,7 +136,7 @@ $(function(){
 
 	// update state
 	getLocks();
-	
+
 	// set initial state of signin controls
 	$('.nav-signedin').hide();
 

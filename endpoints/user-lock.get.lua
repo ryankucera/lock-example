@@ -1,4 +1,4 @@
---#ENDPOINT GET /user/lock/
+--#ENDPOINT GET /user/locks/
 -- Get the state of all the locks a given user
 -- can access.
 local user = util.currentUser(request)
