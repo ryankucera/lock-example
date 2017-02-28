@@ -52,6 +52,10 @@ For this tutorial we'll use the Mr Murano command line utility. At a high level,
 * `mr syncup` - this command syncs all local file system changes to Murano. *Please note: this is an overwrite. Any changes made directly in Murano will be over-written by this command*.
 * Map the product created earlier to our solution: `mr assign set`
 
+### Initialize
+One final step - invoke the `_init` endpoint to load defaut settings. In your browser invoke `http://<your-solution-name>.apps.exosite.io/_init`. You should see `Ok` as a response.
+
+At this point your solution is loaded and initialized. You can remove the _init endpoint if desired.
 
 
 ## Run the solution
