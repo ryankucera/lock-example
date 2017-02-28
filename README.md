@@ -6,49 +6,59 @@ It is designed to illustrate the use of Murano to build connected products and a
 
 1. **Device data logging** periodically log the battery level of the smart lock, and update a web app in real time using the Websocket services.
 2. **Device control** remotely unlock the smart lock.
-3. **User access control** show how to provide user login and role-based permissions using Murano's User and Keystore services. Additionally show how to aggregate locks into dwellings (e.g. home and garage) that contain multiple locks. 
+3. **User access control** show how to provide user login and role-based permissions using Murano's User and Keystore services. Additionally show how to aggregate locks into dwellings (e.g. home and garage) that contain multiple locks.
 
 In contrast to Exosite's home automation example (aka "lightbulb example") this removes any JavaScript UI framework, so that the Device API and Solution API interactions are highlighted. This makes it ideal for training developers integrating their applications with Murano. This one's for the nerds!
 
-
 ## Setup
 
-First, create solution in Murano: On the <a href="https://www.exosite.io/business/solutions">solution page</a>, click <b>+ New Solution</b>, selecting "Start from scratch" in the dropdown. You can then enter this Solution template: 
+### Overview
+For this tutorial we'll use the Mr Murano command line utility. At a high level, here's what we'll do
 
-```
-https://github.com/exosite/lock-example
-```
+* Setup Mr Murano
+* Download the project source
+* Create a solution and product in Murano
+* Upload the solution and product details
+* Run the demo!
 
-After a few moments your solution will be created. Next it needs to be linked to a lock product, though. On the [products page](https://www.exosite.io/business/products) click **+ New Product** and enter this product template to create a smart lock product:
+### Setup our local project directory
+* Get the project source 
+  * Clone the [github repo](https://github.com/exosite/lock-example) to a location of your choosing.
+* Open a command prompt and change to the project directory created above
 
-```
-https://raw.githubusercontent.com/exosite/lock-example/master/product/spec.yaml
-```
+*Note: all commands in this demo are run from this directory*
 
-Install the [Exosite command line tool](https://github.com/exosite/exosite-cli). 
+### Setup Mr Murano
+* Download and install [Mr Murano](https://github.com/tadpol/MrMurano) command line utility.
+* Get your business id `mr account --business`. *Note: if this is your first time running Mr Murano it will ask you for your Murano credentials. These are saved in $HOME/.mrmurano*
+* Save your business id: `mr config business.id <your_business_id>`
 
-```
-$ pip install --upgrade exosite
-```
+### Create our product and solution
+#### First create a product
+* `mr product create lock-demo`
+* Using the output of the prior command, register the product in your .mrmuranorc: `mr config product.id <id>`
+* Configure your product: `mr syncup -V --specs`
+* Your product is now configured. Take a few minutes to log in to Murano and view the setup of your product there.
 
-Next, clone the repository containing the solution.
+#### Now create the solution
+* `mr solution create lock-example`
+* Using the output from the last command, register the solution to Mr Murano: `mr config solution.id <id>`
+* Now we'll upload our solution source files to Murano.
+	* `endpoints` - Files in the `endpoints` directory become routes in our Murano solution. A route is how an external app or web application can communicate with our solution
+	* `eventhandlers` - When device data comes from connected devices into our solution that is processed in the even trigger. This code is in the `eventhandlers` directory.
+	* `modules` - Code that is shared across routes is put in modules. Modules are libraries of functions that can be called anywhere in your solution code.
+	* `files` - Your solution in Murano has a publicly accessible web address allowing you to host a web site web application using frameworks like Ember, Angular or React, to name a few. This content is stored in the `files` directory
+	* *Note - all of these directory names are customizable. You can change them to suite your needs*
+* `mr syncup` - this command syncs all local file system changes to Murano. *Please note: this is an overwrite. Any changes made directly in Murano will be over-written by this command*.
 
-```
-$ git clone git@github.com:exosite/lock-example.git
-$ cd lock-example
-```
 
-Initialize the `.Solutionfile.secret` by running the `--init`. Select the **Solution ID** and **Product ID** you created earlier.
 
-```
-$ exosite --init
-```
-
+## Run the solution
 Create two devices with identities `001` and `002`. It's important that these identities match. You can create them in the UI or at the command line like this:
 
 ```
-$ exosite --enable_identity 001
-$ exosite --enable_identity 002
+$ mr product device enable 001
+$ mr product device enable 002
 ```
 
 Run simulators:
@@ -56,12 +66,7 @@ Run simulators:
 $ cd product
 $ python simulator.py <product-id> 001
 $ python simulator.py <product-id> 002
-```
-
-Deploy the solution:
-
-```
-$ exosite --deploy
+$ cd ..
 ```
 
 Your solution will be available at your-solution-name.apps.exosite.io.
@@ -71,9 +76,9 @@ Your solution will be available at your-solution-name.apps.exosite.io.
 
 - locked/unlocked graphic
 - show detailed requests/responses in simulator for debugging
-- test local debugging 
+- test local debugging
 - make simulator load in eeprom (product/device identities that are hard coded)
-- make simulator save current state (e.g. battery) 
+- make simulator save current state (e.g. battery)
 - pull in a simple UI framework (e.g. bootstrap)
 - port simulator to Electron to get native Windows/OSX/Linux installers
 - authenticate websocket

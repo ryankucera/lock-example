@@ -1,3 +1,4 @@
+--#EVENT device datapoint
 --[[
   data
   The data from the device

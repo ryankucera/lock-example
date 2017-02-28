@@ -10,6 +10,7 @@ if len(sys.argv) < 3:
 
 PRODUCT_ID = sys.argv[1] # 'do5pjwoazfsf9a4i'
 DEVICE_ID = sys.argv[2]  # '001'
+TIMEOUT_MILLIS = '10000'
 
 def show_state():
     print('Product ID: {0} Device ID: {1}'.format(PRODUCT_ID, DEVICE_ID))
@@ -55,7 +56,7 @@ while True:
     # long poll on the "locked" resource
     value, timestamp = murano.read_longpoll(
         ['lock-command'],
-        timeout_millis=10000,
+        timeout_millis=TIMEOUT_MILLIS,
         if_modified_since=timestamp)
 
     writes = {'battery-percent': State.battery_percent}

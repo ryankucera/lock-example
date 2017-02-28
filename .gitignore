@@ -1,3 +1,7 @@
 .Solutionfile.secret
 *.secret
 .ropeproject
+/.mrmuranorc
+.mrmurano/*
+cache.MrMurano_Library.awcp94ivb9rrizfr.yaml
+cache.MrMurano_EventHandler.awcp94ivb9rrizfr.yaml
