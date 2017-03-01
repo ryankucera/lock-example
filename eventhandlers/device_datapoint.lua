@@ -1,49 +1,53 @@
 --#EVENT device datapoint
 --[[
-  data
-  The data from the device
+data
+The data from the device
 
-  data.api enum string (write|record)
-  Provider API
+data.api enum string (write|record)
+Provider API
 
-  data.rid string
-  Unique device resource id
+data.rid string
+Unique device resource id
 
-  data.seq integer
-  The message sequence number for specific resource id
+data.seq integer
+The message sequence number for specific resource id
 
-  data.alias string
-  Device resource alias
+data.alias string
+Device resource alias
 
-  data.value table{1 = "live"|timestamp, 2 = value}
-  Data transmitted by the device
+data.value table{1 = "live"|timestamp, 2 = value}
+Data transmitted by the device
 
-  data.vendor string
-  Device vendor identifier
+data.vendor string
+Device vendor identifier
 
-  data.device_sn string
-  Device Serial number
+data.device_sn string
+Device Serial number
 
-  data.source_ip string
-  The device source ip
+data.source_ip string
+The device source ip
 
-  data.timestamp integer
-  Event time
+data.timestamp integer
+Event time
 --]]
 
 -- update the state for this lock
 util.setStates('lockID', data.device_sn, {
-  data.alias, data.value[2], 
-  'last_timestamp', data.timestamp
+    data.alias, data.value[2],
+    'last_timestamp', data.timestamp
 })
+
+if data.alias == 'lock-state' or data.alias == 'lock-command' then
+    util.saveHistory(data.device_sn, data.alias, data.value[2])
+end
 
 -- notify UI of an update
 -- get websocket ids
 local sockets = Websocket.list()
 for k, socket in pairs(sockets) do
-	-- send update on each socket
-	Websocket.send({
-		socket_id = socket,
-		message = to_json({lockID = data.device_sn, [data.alias] = data.value[2]})
-	})
+    -- send update on each socket
+    Websocket.send({
+        socket_id = socket,
+        message = to_json({ lockID = data.device_sn, [data.alias] = data.value[2] })
+    })
 end
