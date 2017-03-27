@@ -3,10 +3,8 @@
 -- can access.
 local user = util.currentUser(request)
 if user ~= nil and user.id ~= nil then
-	locks = util.getUserAccessibleItems(user.id, 'lockID')
-  return locks
+    return util.getUserAccessibleItems(user.id, 'lockID')
 else
-	response.code = 400
-	response.message = "Token invalid"
+    response.code = 400
+    response.message = "Token invalid"
 end
-

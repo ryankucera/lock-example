@@ -66,14 +66,6 @@ util.setStates = function(parm_name, parm_value, states)
     })
 end
 
--- remove all state specific lock or dwelling
--- parm_name is 'lockID' or 'dwellingID', parm_value is the ID
-util.deleteState = function(parm_name, parm_value)
-    return Keystore.delete({
-        key = 'state:' .. parm_name .. ':' .. parm_value
-    })
-end
-
 -- save lock state in timeseries for logging/reporting
 util.saveHistory = function(sn, attribute_name, value)
     local metrics = {
