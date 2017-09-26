@@ -4,9 +4,8 @@
 resources:
 -   alias: lock-command 
     format: string
-    settable: TRUE
+    settable: true
 -   alias: lock-state
     format: string
 -   alias: battery-percent
     format: integer
-    settable: FALSE
