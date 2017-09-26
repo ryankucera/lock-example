@@ -67,7 +67,7 @@ local r = Device.write({
 
 return r
 
---#ENDPOINT GET /lock/
+--#ENDPOINT GET /lock
 
 -- get all the locks. This illustrates a public endpoint 
 -- with no authentication and therefore no associated user
